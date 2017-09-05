@@ -16,9 +16,11 @@ after_success:
   - docker run -ti -v /opt/druio-html:/var/www/html:rw -v /opt/composer.sh:/start.sh:ro synst/php7
   - cd /opt/druio-html && ls -l
   - echo \#\!/bin/bash > /opt/backup.sh
-  - echo -e "\n\ntar czf druio.tar.gz /html \n" >> /opt/backup.sh
-  - echo -e "\n\naws s3 rm s3://druio/druio.tar.gz\n" >> /opt/backup.sh
-  - echo -e "\n\naws s3 cp druio.tar.gz s3://druio/druio.tar.gz\n" >> /opt/backup.sh
+  - echo -e "\n\n" >> /opt/backup.sh
+  - echo -e "tar czf druio.tar.gz /html\n" >> /opt/backup.sh
+  - echo -e "aws s3 rm s3://druio/druio.tar.gz\n" >> /opt/backup.sh
+  - echo -e "aws s3 cp druio.tar.gz s3://druio/druio.tar.gz\n" >> /opt/backup.sh
+  - echo -e "aws s3api put-object-acl --acl public-read --bucket druio --key druio.tar.gz\n" >> /opt/backup.sh
   - chmod +x /opt/backup.sh
   - cat /opt/backup.sh
   - docker run -ti -v /opt/druio-html:/html:rw -v /opt/backup.sh:/start.sh -e "S3_BUCKET_NAME=druio" -e "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" synst/s3-dockup
