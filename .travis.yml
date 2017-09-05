@@ -1,0 +1,17 @@
+language: python
+python:
+    - '2.7'
+
+services:
+  - docker
+
+env:
+  global:
+    - VERSION=4.1.0
+
+script:
+  - python build.py
+
+after_success:
+  - git clone --branch=8.x https://github.com/dru-io/Dru.io.git /opt/druio-html
+  - docker run -d -v /opt/druio-html:/var/www/html:rw /politsin/druio-build/start.sh:/start.sh:ro synst/php7
