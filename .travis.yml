@@ -21,4 +21,4 @@ after_success:
   - echo -e "\n\naws s3 cp druio.tar.gz s3://druio/druio.tar.gz\n" >> /opt/backup.sh
   - chmod +x /opt/backup.sh
   - cat /opt/backup.sh
-  - docker run -ti -v /opt/druio-html:/html:rw -v /opt/backup.sh:/start.sh -e "S3_BUCKET_NAME=druio" -e "AWS_DEFAULT_REGION=eu-west-1" -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" synst/s3-dockup
+  - docker run -ti -v /opt/druio-html:/html:rw -v /opt/backup.sh:/start.sh -e "S3_BUCKET_NAME=druio" -e "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" synst/s3-dockup
