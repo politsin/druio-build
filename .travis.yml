@@ -15,4 +15,9 @@ after_success:
   - cat /opt/composer.sh
   - docker run -ti -v /opt/druio-html:/var/www/html:rw -v /opt/composer.sh:/start.sh:ro synst/php7
   - cd /opt/druio-html && ls -l
-  - docker run -ti -v /opt/druio-html:/html:rw -e "S3_BUCKET_NAME=druio" -e "AWS_DEFAULT_REGION=eu-west-1" -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e "BACKUP_NAME=druio" -e "BACKUP_PATHS=/html" -e "BACKUP_TAR_OPTION=" synst/s3-dockup
+  - echo \#\!/bin/bash > /opt/backup.sh
+  - echo -e "\n\ntar czf druio.tar.gz /html \n" >> /opt/backup.sh
+  - echo -e "\n\naws s3 rm s3://druio/druio.tar.gz\n" >> /opt/backup.sh
+  - echo -e "\n\naws s3 cp druio.tar.gz s3://druio/druio.tar.gz\n" >> /opt/backup.sh
+  - cat /opt/backup.sh
+  - docker run -ti -v /opt/druio-html:/html:rw -v /opt/backup.sh:/start.sh -e "S3_BUCKET_NAME=druio" -e "AWS_DEFAULT_REGION=eu-west-1" -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" synst/s3-dockup
