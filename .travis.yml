@@ -7,8 +7,10 @@ services:
 
 script:
   - git clone --branch=8.x https://github.com/dru-io/Dru.io.git /opt/druio-html
+
 after_success:
-  - echo "#!/bin/bash\n\ncomposer update --with-dependencies -d /var/www/html" > /opt/composer.sh
+  - echo \#\!/bin/bash > /opt/composer.sh
+  - echo -e "\n\ncomposer update --with-dependencies -d /var/www/html" >> /opt/composer.sh
   - cat /opt/composer.sh
   - docker run -ti -v /opt/druio-html:/var/www/html:rw -v /opt/composer.sh:/start.sh:ro synst/php7
   - cd /opt/druio-html && ls -l
