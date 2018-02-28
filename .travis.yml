@@ -11,7 +11,7 @@ before_script:
   - cd /opt/druio-html
 
 script:
-  - composer update --with-dependencies
+  - composer update --with-dependencies -d /opt/druio-html
 
 after_success:
   - echo 'ok'
