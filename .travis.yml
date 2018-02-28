@@ -12,4 +12,4 @@ script:
   - composer update --with-dependencies
 
 after_success:
-  - echo \#\!/bin/bash > /opt/composer.sh
+  - echo 'ok'
