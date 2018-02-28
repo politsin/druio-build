@@ -5,7 +5,7 @@ php:
 services:
   - docker
  
-before-install:
+install:
   - pip install awscli
 
 before_script:
