@@ -1,0 +1,117 @@
+{
+    "name": "drupal-composer/drupal-project",
+    "description": "Dru.io community website",
+    "type": "project",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "",
+            "role": ""
+        }
+    ],
+    "require": {
+        "composer/installers": "^1.2",
+        "cweagans/composer-patches": "^1.6",
+        "drupal-composer/drupal-scaffold": "^2.2",
+        "drupal/admin_toolbar": "^1.19",
+        "drupal/config_installer": "^1.4",
+        "drupal/console": "^1.0.2",
+        "drupal/core": "~8.4",
+        "drupal/ctools": "^3.0",
+        "drupal/devel": "^1.0@RC",
+        "drupal/field_group": "^1.0@RC",
+        "drupal/glisseo": "1.0-alpha2",
+        "drupal/imagemagick": "^2.0",
+        "drupal/markdown": "^1.2",
+        "drupal/migrate_plus": "^4.0",
+        "drupal/migrate_source_csv": "^2.0",
+        "drupal/migrate_tools": "^4.0",
+        "drupal/module_filter": "^3.0",
+        "drupal/paragraphs": "^1.1",
+        "drupal/pathauto": "^1.0",
+        "drupal/restui": "^1.15",
+        "drupal/snippet_manager": "^1.0",
+        "drupal/twig_tweak": "^1.9",
+        "drupal/vote_up_down": "^1.0@alpha",
+        "drupal/votingapi": "^3.0@alpha",
+        "drush/drush": "^9",
+        "moment/luxon": "master",
+        "symfony/var-dumper": "^3.4",
+        "webflo/drupal-finder": "^1.0.0",
+        "webmozart/path-util": "^2.3",
+        "wikimedia/composer-merge-plugin": "~1.4"
+    },
+    "require-dev": {
+        "behat/mink": "~1.7",
+        "behat/mink-goutte-driver": "~1.2",
+        "jcalderonzumba/gastonjs": "~1.0.2",
+        "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
+        "mikey179/vfsstream": "~1.2",
+        "phpunit/phpunit": ">=4.8.28 <5",
+        "symfony/css-selector": "~2.8|~3.0"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ]
+    },
+    "scripts": {
+        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+        "pre-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
+        "pre-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
+        "post-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ],
+        "post-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ]
+    },
+    "extra": {
+        "installer-paths": {
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/contrib/{$name}": ["type:drupal-drush"]
+        },
+        "merge-plugin": {
+            "include": [
+                "web/modules/custom/*/composer.json"
+            ],
+            "recurse": false,
+            "replace": false,
+            "merge-extra": false
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "moment/luxon",
+                "type": "drupal-library",
+                "version": "master",
+                "dist": {
+                    "url": "http://moment.github.io/luxon/global/luxon.min.js",
+                    "type": "file"
+                }
+            }
+        }
+    ]
+}
