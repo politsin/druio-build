@@ -15,6 +15,9 @@ before_script:
 script:
   - composer update --with-dependencies -d /opt/druio-html
   - tar czf druio.tar.gz /html
+  - aws s3 rm s3://druio/druio.tar.gz
+  - aws s3 cp druio.tar.gz s3://druio/druio.tar.gz
+  - aws s3api put-object-acl --acl public-read --bucket druio --key druio.tar.gz
 
 after_success:
   - echo 'ok'
