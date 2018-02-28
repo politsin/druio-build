@@ -4,14 +4,17 @@ php:
 
 services:
   - docker
+ 
+before-install:
+  - pip install awscli
 
 before_script:
   - composer self-update
   - git clone --branch=8.x https://github.com/dru-io/Dru.io.git /opt/druio-html
-  - cd /opt/druio-html
 
 script:
   - composer update --with-dependencies -d /opt/druio-html
+  - tar czf druio.tar.gz /html
 
 after_success:
   - echo 'ok'
